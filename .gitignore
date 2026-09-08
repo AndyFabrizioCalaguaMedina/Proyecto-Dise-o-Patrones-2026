@@ -1,0 +1,17 @@
+# Compilados de Java / Maven
+target/
+bin/
+*.class
+
+# Archivos de configuración de IDEs
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+nbproject/
+nb-configuration.xml
+
+# Logs y temporales
+*.log
