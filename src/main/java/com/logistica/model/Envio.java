@@ -3,9 +3,9 @@ package com.logistica.model;
 import java.time.LocalDateTime;
 
 /**
- * Entidad principal de dominio que representa un envío / paquete.
+ * Entidad principal de dominio que representa un envÃ­o / paquete.
  */
-public class Envio {
+public class Envio implements Cloneable {
     private int id;
     private String codigoTracking;
     private String tipoServicio; // EXPRESS, ESTANDAR, PROGRAMADO, INTERPROVINCIAL
@@ -80,5 +80,26 @@ public class Envio {
     public String toString() {
         return String.format("Envio[%s | Servicio: %s | Destinatario: %s | Peso: %.2f kg | Costo: S/ %.2f | Estado: %s]",
                 codigoTracking, tipoServicio, nombreDestinatario, pesoKg, costoTotal, estadoActual);
+    }
+
+    // =====================================================
+    // PATRÓN GoF: PROTOTYPE (Creacional)
+    // Permite clonar envíos existentes como plantillas
+    // para clientes corporativos con envíos recurrentes.
+    // Refuerza OCP: se extiende funcionalidad sin modificar lógica existente.
+    // =====================================================
+    @Override
+    public Envio clone() {
+        try {
+            Envio clon = (Envio) super.clone();
+            // Deep copy: nuevo tracking y fecha para el clon
+            clon.setCodigoTracking(null); // Se asignará al registrar
+            clon.setFechaRegistro(java.time.LocalDateTime.now());
+            clon.setEstadoActual(EstadoEnvio.REGISTRADO);
+            clon.setId(0); // Nuevo registro en BD
+            return clon;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("Error al clonar el envío", e);
+        }
     }
 }
